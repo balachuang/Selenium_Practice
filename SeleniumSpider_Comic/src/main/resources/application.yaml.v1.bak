@@ -1,0 +1,59 @@
+selenium:
+  browser: Chrome
+  minimize-browser: false
+  hide-browser: false
+  target-spider: cartoonmad
+  ## random-interval > 0 : fix sleep interval between each download
+  ## random-interval = 0 : no sleep, continue download
+  ## random-interval < 0 : random sleep interval (from 1 ~ abs(random-interval) seconds) between each download
+  random-interval: 0
+
+
+# 無限動漫 https://www.comicabc.com/
+8-comic:
+  username: Balachuang
+  password: duperman0313
+  cover-url-template: https://www.comicabc.com/html/{{comic-id}}.html
+  login-url: https://v.comicabc.com/member/login.aspx
+  comic:
+    name: 咒術回戰
+    id: 15790
+    ch-str: 3
+    ch-end: 3
+    ## page-str <= 0 : download from the first page
+    ## page-end <= 0 : download to the last page
+    page-str: 5
+    page-end: 6
+
+# 動漫狂 https://www.cartoonmad.com/
+cartoonmad:
+  username: na
+  password: na
+  cover-url-template: https://www.cartoonmad.com/comic/{{comic-id}}.html
+  login-url: na
+  comic:
+    name: 迷宮飯
+    id: 4455
+    ch-str: 3
+    ch-end: 5
+    page-str: 0
+    page-end: 0
+
+# 動漫戲說 https://comic.acgn.cc/
+
+
+# 開車漫畫 https://18p.fun/
+# 紳士漫畫 禁漫天堂 https://www.apexmh.com/
+apexmh:
+  comic-url-template: https://www.apexmh.com/comic/{{comic-id}}.html
+  comic:
+    name: 芙莉蓮自拍
+    id: 60930
+    page-str: 1
+    page-end: 3
+
+
+# 本機下載位置
+local:
+  base-path: D:\MyDownload\Images\Comic
+  save-to-sub-folder: true

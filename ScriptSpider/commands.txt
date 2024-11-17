@@ -1,0 +1,21 @@
+----- Remark
+
+Define key val
+
+Navigate url
+
+Find cssSelector
+Click cssSelector
+
+Input text
+
+Loop [start end] ... End
+If condition ... End
+Break
+End
+Next
+
+CloseTab 1
+Download url filename
+ParseText text regExp no
+SwitchTab 1

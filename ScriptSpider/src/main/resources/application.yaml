@@ -1,0 +1,46 @@
+# spring:
+#   profiles:
+#     active: acgn
+
+browser:
+  driver: Chrome
+  timeout:
+    global: 60
+    script: 60
+    pageLoad: 60
+
+# content:
+#   spider:
+#     js: |
+#       body = document.querySelector('body');
+#       element = document.createElement('div');
+#       text = document.createTextNode('Hello, Spider');
+#       element.appendChild(text);
+#       body.append(element);
+#   message:
+#     js: |
+#       elemTd1 = document.createElement('td');
+#       elemTd1.style.width = '20%';
+#       elemTd2 = document.createElement('td');
+#       elemTd2.style.width = '80%';
+#       text = document.createTextNode('Key');
+#       elemTd1.append(text)
+#       text = document.createTextNode('Value');
+#       elemTd2.append(text)
+#       elemTr = document.createElement('tr');
+#       elemTr.appendChild(elemTd1);
+#       elemTr.appendChild(elemTd2);
+#       elemTable = document.createElement('table');
+#       elemTable.appendChild(elemTr);
+#       elemDiv = document.createElement('div');
+#       elemDiv.style.position = 'fixed';
+#       elemDiv.style.width = '350px';
+#       elemDiv.style.height = '450px';
+#       elemDiv.style.right = '20px';
+#       elemDiv.style.bottom = '20px';
+#       elemDiv.style.zIndex = '1000';
+#       elemDiv.style.padding = '20px';
+#       elemDiv.style.backgroundColor = 'rgba(0, 5, 5, 0.7)';
+#       elemDiv.style.color = 'white';
+#       elemDiv.appendChild(elemTable);
+#       document.querySelector('body').append(elemDiv);

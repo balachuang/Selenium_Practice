@@ -1,0 +1,13 @@
+----- define parameters
+---Define testUrl https://www.momoshop.com.tw/main/Main.jsp
+---Navigate $(testUrl)
+---Click #keyword
+---Input 測試  試紙
+---Click #topSchFrm button
+
+----- 也可以用中文
+瀏覽網頁 https://www.momoshop.com.tw/main/Main.jsp
+點擊元件 #keyword
+輸入文字 保冷袋 側袋
+點擊元件 #topSchFrm button
+搜尋元件 a.goodsUrl h3

@@ -1,0 +1,85 @@
+# 無限動漫  8comic      https://www.comicabc.com/
+# 動漫狂    cartoonmad  https://www.cartoonmad.com/
+# 動漫戲說  acgn        https://comic.acgn.cc/
+# Komiic   komiic      https://komiic.com/
+spring:
+  profiles:
+    active: 8comic
+
+browser:
+  driver: Chrome
+  minimize: false
+  hide: false
+
+spider:
+  random-interval: -1
+  local-save:
+    base-path: D:\MyDownload\Images\Comic
+    save-to-sub-folder: true
+
+comic:
+  name: 尸人莊殺人事件
+  id: 17985
+  need-login: false
+  special-chaps: 002話 前篇+後篇, 003話 前篇+後篇
+  chap-str: 11
+  chap-end: 12
+  page-str: 8
+  page-end: 10
+
+
+---
+# 無限動漫 https://www.comicabc.com/
+spring.config.activate.on-profile: 8comic
+web:
+  url:
+    login: https://www.8comic.com/member/login.aspx
+    cover: https://www.8comic.com/html/{{comic-id}}.html
+  username: Balachuang
+  password: duperman0313
+
+---
+# 動漫狂 https://www.cartoonmad.com/
+spring.config.activate.on-profile: cartoonmad
+web:
+  url:
+    login: 
+    cover: https://www.cartoonmad.com/comic/{{comic-id}}.html
+  username: 
+  password: 
+
+---
+# 動漫戲說 https://comic.acgn.cc/
+spring.config.activate.on-profile: acgn
+web:
+  url:
+    login: 
+    cover: https://comic.acgn.cc/view-{{comic-id}}.htm
+  username: 
+  password: 
+
+
+---
+# Komiic https://komiic.com/
+spring.config.activate.on-profile: komiic
+web:
+  url:
+    login: 
+    cover: https://komiic.com/comic/{{comic-id}}
+  username: 
+  password: 
+
+
+---
+# 紳士漫畫 禁漫天堂 https://www.apexmh.com/
+spring.config.activate.on-profile: apexmh
+web:
+  url:
+    login: 
+    cover: https://www.apexmh.com/comic/{{comic-id}}.html
+  username: 
+  password: 
+
+
+# 動漫戲說 https://comic.acgn.cc/
+# 開車漫畫 https://18p.fun/

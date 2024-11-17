@@ -1,0 +1,144 @@
+package bala.tools.spider;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+// import org.springframework.util.StringUtils;
+
+import bala.tools.model.ComicInfo;
+import bala.tools.utils.AppConfig;
+import bala.tools.utils.ComicConfig;
+import bala.tools.utils.Common;
+import lombok.extern.slf4j.Slf4j;
+
+
+@Component
+@Slf4j
+public class Spider_8Comic
+{
+	@Autowired
+	AppConfig appConfig;
+
+	@Autowired
+	ComicConfig comicConfig;
+
+	public void run(WebDriver driver) throws MalformedURLException, IOException, URISyntaxException, InterruptedException
+	{
+		// prepare config
+		WebElement webElem = null;
+		ComicInfo comicInfo = Common.loadComicInfo(comicConfig);
+		String localPath = Common.prepareStoreLocation(appConfig, comicInfo.getName());
+
+		// Login First
+		// 用 navigate().to() 和 get() 一樣, 但是 navigate 可以有歷史記錄, 也可以保留 cookie.
+		if (comicInfo.isNeedLogin())
+		{
+			logger.info("Login to 8-Comic");
+			driver.navigate().to(comicInfo.getLoginUrl());
+
+			webElem = driver.findElement(By.id("Form1")).findElement(By.name("username"));
+			webElem.click();
+			webElem.sendKeys(comicInfo.getUsername());
+
+			webElem = driver.findElement(By.id("password"));
+			webElem.click();
+			webElem.sendKeys(comicInfo.getPassword());
+
+			webElem = driver.findElement(By.id("Form1")).findElement(By.name("submit"));
+			webElem.click();
+		}
+
+		// Goto overview page & click into the first chapter
+		logger.info("Navigate to coverpage of {}", comicInfo.getName());
+		driver.navigate().to(comicInfo.getCoverUrl());
+
+		// String localPath = localConfig.getPath().trim();
+		Pattern pattern = Pattern.compile("(\\d+)/(\\d+)", Pattern.CASE_INSENSITIVE);
+		int currChap = comicInfo.getChapStart();
+		int finalChap = comicInfo.getChapEnd();
+		while(currChap <= finalChap)
+		{
+			// find and click into currChap
+			webElem = driver.findElement(By.cssSelector(String.format("a#c%d", currChap)));
+			webElem.click();
+			ArrayList<String> tabs = new ArrayList<String> (driver.getWindowHandles());
+			driver.switchTo().window(tabs.get(1));
+
+			// read pages
+			while (true)
+			{
+				int currPage = 0, totalPage = 0;
+				webElem = driver.findElement(By.cssSelector("#pagenum"));
+				Matcher matcher = pattern.matcher(webElem.getText());
+				if (matcher.find())
+				{
+					currPage = Integer.parseInt(matcher.group(1));
+					totalPage = Integer.parseInt(matcher.group(2));
+				}else{
+					// page number not found
+					logger.error("Find page number ERROR, please check HTML content.");
+					break;
+				}
+	
+				// check page in range and download image
+				if ((currPage >= comicInfo.getPageStart()) && (currPage <= comicInfo.getPageEnd()))
+				{
+					logger.info(String.format("Download: [%s: %03d] - %03d / %03d.", comicInfo.getName(), currChap, currPage, totalPage));
+					String imgFName = String.format("%s/CH_%03d__P_%03d.jpg", localPath, currChap, currPage);
+					webElem = driver.findElement(By.cssSelector("#TheImg"));
+					InputStream in = new URI(webElem.getAttribute("src")).toURL().openStream();
+					Files.copy(in, Paths.get(imgFName), StandardCopyOption.REPLACE_EXISTING);
+				}
+
+				// go next page or directly jump to start page
+				if ((currPage < totalPage) && (currPage <= comicInfo.getPageEnd()))
+				{
+					// sleep before next page
+					Common.Sleep(appConfig.getRandomInterval());
+
+					if (currPage < comicInfo.getPageStart())
+					{
+						// current page < start page, -> jump to Start Page
+						logger.info(String.format("Jump to page: {}", comicInfo.getPageStart()));
+						Select dropdown = new Select(driver.findElement(By.id("pageindex")));
+						dropdown.selectByValue(String.format("%d", comicInfo.getPageStart()));
+						// dropdown.selectByVisibleText("Programmer ");
+					}else{
+						// current page >= start page, -> go Next Page
+						webElem = driver.findElement(By.cssSelector("#next"));
+						webElem.click();
+					}
+				}else{
+					logger.info("--- All pages downloaded.");
+					break;
+				}
+			}
+
+			// this chapter done. close this tab.
+			driver.close();
+			tabs = new ArrayList<String> (driver.getWindowHandles());
+			driver.switchTo().window(tabs.get(0));
+
+			// go next chapter
+			++currChap;
+		}
+
+		driver.quit();
+		logger.info("=== All Chapters Downloaded.");
+	}
+}

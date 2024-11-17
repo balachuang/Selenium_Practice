@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: Haodoo
+
+browser:
+  driver: Chrome
+  minimize: false
+  hide: false
+
+spider:
+  random-interval: -1
+  local-save:
+    default-path: C:\Users\balac\Downloads
+    target-path: D:\MyDownload
+
+
+---
+# 好讀 https://www.haodoo.net/?M=hd&P=welcome
+# 好讀的 eBook 排列沒什麼組織性, 所以不需要一次抓一堆, 只要一次抓一本書就好
+# 會需要寫的原因是他下載的檔名實在是太差, 完全看不出是什麼書
+# 因為一次只抓一本書, 所以 url 從 console 輸入就好, 放這裡反而不方便
+spring.config.activate.on-profile: Haodoo
+download:
+  timeout: 30
+  urls: |
+    https://www.haodoo.net/?M=book&P=435
+    https://www.haodoo.net/?M=book&P=394

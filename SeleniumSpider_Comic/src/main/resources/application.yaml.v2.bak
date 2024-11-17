@@ -1,0 +1,98 @@
+spring:
+  profiles:
+    active: cartoonmad
+
+browser:
+  driver: Chrome
+  minimize: false
+  hide: false
+
+spider:
+  random-interval: -1
+  local-save:
+    base-path: D:\MyDownload\Images\Comic
+    save-to-sub-folder: true
+
+
+---
+# 無限動漫 https://www.comicabc.com/
+spring.config.activate.on-profile: 8-comic
+web:
+  url:
+    login: https://v.comicabc.com/member/login.aspx
+    cover: https://www.comicabc.com/html/{{comic-id}}.html
+  username: Balachuang
+  password: duperman0313
+
+comic:
+  name: 咒術回戰
+  id: 15790
+  need-login: true
+  chap-str: 1
+  chap-end: 2
+  page-str: 3
+  page-end: 4
+
+
+---
+# 動漫狂 https://www.cartoonmad.com/
+spring.config.activate.on-profile: cartoonmad
+web:
+  url:
+    login: 
+    cover: https://www.cartoonmad.com/comic/{{comic-id}}.html
+  username: 
+  password: 
+
+comic:
+  name: 電鋸人
+  id: 8151
+  need-login: false
+  chap-str: 1
+  chap-end: 1
+  page-str: 0
+  page-end: 0
+
+
+---
+# 動漫戲說 https://comic.acgn.cc/
+spring.config.activate.on-profile: acgn
+web:
+  url:
+    login: 
+    cover: https://comic.acgn.cc/view-{{comic-id}}.htm
+  username: 
+  password: 
+
+comic:
+  name: 偵探儀式
+  id: 90945
+  need-login: false
+  chap-str: 2
+  chap-end: 3
+  page-str: 0
+  page-end: 0
+
+
+---
+# 紳士漫畫 禁漫天堂 https://www.apexmh.com/
+spring.config.activate.on-profile: apexmh
+web:
+  url:
+    login: 
+    cover: https://www.apexmh.com/comic/{{comic-id}}.html
+  username: 
+  password: 
+
+comic:
+  name: 芙莉蓮自拍
+  id: 60930
+  need-login: false
+  chap-str: 1
+  chap-end: 2
+  page-str: 3
+  page-end: 4
+
+
+# 動漫戲說 https://comic.acgn.cc/
+# 開車漫畫 https://18p.fun/

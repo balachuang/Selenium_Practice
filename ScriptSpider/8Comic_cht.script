@@ -1,0 +1,49 @@
+----- define parameters
+定義變數 comic-name 怪怪守護神
+定義變數 local-path D:/MyDownload/Images/Comic/怪怪守護神
+定義變數 cover-url https://www.comicabc.com/html/6698.html
+定義變數 chap-str 1
+定義變數 chap-end 1
+定義變數 page-str 1
+定義變數 page-end 3
+
+----- Navigate cover page
+瀏覽網頁 $(cover-url)
+進入迴圈 $(chap-str) $(chap-end)
+
+	定義變數 currChap ${loop}
+
+	----- Navigate chapter
+	點擊元件 a#c${loop}
+	切換頁籤 1
+
+	----- Navigate page
+	進入迴圈
+		取得元件 #pagenum innerText
+		剖析字串 ${prevText} "(?<target>\d+)/"
+		定義變數 currPage ${prevText}
+
+		取得元件 #pagenum innerText
+		剖析字串 ${prevText} /(\d+)
+		定義變數 totalPage ${prevText}
+
+		條件判斷 ($(currPage) >= $(page-str)) && ($(currPage) <= $(page-end))
+			定義變數 fileName $(local-path)/CH_$(currChap)__P_$(currPage).jpg
+			取得元件 #TheImg src
+			定義變數 imageUrl ${prevText}
+			下載檔案 $(imageUrl) $(fileName)
+		結束判斷
+
+		條件判斷 ($(currPage) >= $(totalPage)) || ($(currPage) >= $(page-end))
+			跳出迴圈
+		結束判斷
+
+		中場休息 -1
+		點擊元件 #next
+	回到開頭
+
+	--- 再想一下這兩個有沒有更好的方法, 這兩個 script 看起來像是 WebDriver 專用的.
+	關閉頁籤 1
+	切換頁籤 0
+
+回到開頭

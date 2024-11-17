@@ -1,0 +1,49 @@
+----- define parameters
+Define comic-name 怪怪守護神
+Define local-path D:/MyDownload/Images/Comic/怪怪守護神
+Define cover-url https://www.comicabc.com/html/6698.html
+Define chap-str 1
+Define chap-end 1
+Define page-str 1
+Define page-end 3
+
+----- Navigate cover page
+Navigate $(cover-url)
+Loop $(chap-str) $(chap-end)
+
+	Define currChap ${loop}
+
+	----- Navigate chapter
+	Click a#c${loop}
+	SwitchTab 1
+
+	----- Navigate page
+	Loop
+		Get #pagenum innerText
+		ParseText ${prevText} "(?<target>\d+)/"
+		Define currPage ${prevText}
+
+		Get #pagenum innerText
+		ParseText ${prevText} /(\d+)
+		Define totalPage ${prevText}
+
+		If ($(currPage) >= $(page-str)) && ($(currPage) <= $(page-end))
+			Define fileName $(local-path)/CH_$(currChap)__P_$(currPage).jpg
+			Get #TheImg src
+			Define imageUrl ${prevText}
+			Download $(imageUrl) $(fileName)
+		End
+
+		If ($(currPage) >= $(totalPage)) || ($(currPage) >= $(page-end))
+			Break
+		End
+
+		Sleep -1
+		Click #next
+	Next
+
+	--- 再想一下這兩個有沒有更好的方法, 這兩個 script 看起來像是 WebDriver 專用的.
+	CloseTab 1
+	SwitchTab 0
+
+Next
