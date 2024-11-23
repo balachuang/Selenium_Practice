@@ -13,6 +13,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -124,8 +126,9 @@ public class Spider_8Comic
 				// find image
 				webElem = driver.findElement(By.cssSelector(String.format("div.comics-pic a[name=\"%d\"]", currPage)));
 
-				// scroll to image
-				js.executeScript(String.format("window.scrollTo(0,%d)", webElem.getLocation().getY()));
+				// scroll to image --> test Actions
+				// js.executeScript(String.format("window.scrollTo(0,%d)", webElem.getLocation().getY()));
+				new Actions(driver).scrollToElement(webElem);
 
 				// download
 				try{

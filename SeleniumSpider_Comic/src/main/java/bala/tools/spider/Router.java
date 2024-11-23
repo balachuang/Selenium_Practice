@@ -12,9 +12,10 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.Point;
+// import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import bala.tools.utils.AppConfig;
 import bala.tools.utils.ComicConfig;
@@ -53,25 +54,29 @@ public class Router implements ApplicationRunner
 	@SuppressWarnings("deprecation")
 	public void run(ApplicationArguments args) throws MalformedURLException, IOException, URISyntaxException, InterruptedException
 	{
+		// hide chrome by chrome option
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--headless");
+
 		// Initialize WebDriver
 		WebDriver driver = null;
 
 		switch (appConfig.getBrowserDriver()) {
 			case "Chrome":
-				driver = new ChromeDriver();
+				driver = appConfig.isHideBrowser() ? new ChromeDriver(options) : new ChromeDriver();
 				break;
 			default:
-				driver = new ChromeDriver();
+				driver = appConfig.isHideBrowser() ? new ChromeDriver(options) : new ChromeDriver();
 				break;
 		}
 
 		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.MINUTES);
 		driver.manage().timeouts().setScriptTimeout(10, TimeUnit.MINUTES);
-		if (appConfig.isMinimizeBrowser()) driver.manage().window().maximize();
-		if (appConfig.isHideBrowser()) driver.manage().window().setPosition(new Point(
-			driver.manage().window().getSize().getWidth() * 3,
-			driver.manage().window().getPosition().getY()
-		));
+		if (appConfig.isMinimizeBrowser()) driver.manage().window().minimize();
+		// if (appConfig.isHideBrowser()) driver.manage().window().setPosition(new Point(
+		// 	driver.manage().window().getSize().getWidth() * 3,
+		// 	driver.manage().window().getPosition().getY()
+		// ));
 
 		// Lauch responding Spider
 		String[] activeProfs = env.getActiveProfiles();

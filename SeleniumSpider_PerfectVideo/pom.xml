@@ -9,13 +9,7 @@
 	</parent>
 	<groupId>bala-tools</groupId>
 	<artifactId>selenium-spider</artifactId>
-	<!--
-		版本規則
-		主要版本 - 目前可用的 spider 數量
-		次要版本 - 某個 Spider 本身有程式邏輯的修改
-		修訂版本 - 非程式邏輯的小變動
-	-->
-	<version>4.2.3-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>SeleniumSpider</name>
 	<description>My Spider make by Selenium</description>
 

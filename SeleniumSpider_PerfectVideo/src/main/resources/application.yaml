@@ -1,0 +1,20 @@
+logging:
+  level:
+    root: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    # file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  # file.name: my-youtube-downloder.log
+
+browser:
+  minimize: false
+  hide: false
+
+youtube:
+  home-url: https://www.youtube.com/
+  watchlater-url: https://www.youtube.com/playlist?list=WL
+  cookie-file-path: D:\MyDownload\www.youtube.com_cookies.txt
+
+yt-dlp:
+  app-path: D:\MySoftware\yt-dlp\yt-dlp.exe
+  app-config: D:\MySoftware\yt-dlp\download.conf
